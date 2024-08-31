@@ -3,6 +3,7 @@ const inquirer = require('inquirer');
 const colors = require('colors');
 const { clear } = require('console');
 const validateColors = require('./lib/validateColors/validateColors');
+const generateMarkup = require('./lib/generateSVG/generateSVG.js')
 
 // logs launching for a second and then runs welcome tag with instructions to follow prompts.  setInterval and seTimeout set up to log at appropriate times
 const launch = (() => {
@@ -78,6 +79,7 @@ const init = (() => {
         .then((response) => {
             console.log(colors.green(response));
             validateColors(response);
+            generateMarkup(response);
         })
     }, 2300);
 })
