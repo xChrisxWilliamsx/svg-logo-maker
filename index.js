@@ -2,9 +2,9 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 const colors = require('colors');
 const { clear } = require('console');
-const { type } = require('os');
-const { validate } = require('@babel/types');
+const validateColors = require('./lib/validateColors/validateColors');
 
+// logs launching for a second and then runs welcome tag with instructions to follow prompts.  setInterval and seTimeout set up to log at appropriate times
 const launch = (() => {
     console.log(colors.green("launching..."));
     let count = 1;
@@ -15,16 +15,15 @@ const launch = (() => {
             clear();
         }
     }, 1000);
-
     setTimeout(() => {
         console.log(colors.green("Welcome to the SVG Logo Maker!"));
     }, 1500);
-
     setTimeout(() => {
         console.log(colors.green("Please follow prompts:"));
     }, 2000);
 }) 
 
+// user prompt questions
 const prompts = [
     {
         name: "text",
@@ -41,7 +40,12 @@ const prompts = [
         name: "textColor",
         message: "Please enter a color for your text (can also use hex code):",
         type: "input",
-        // how to add validate to check for this ^ .....?......
+        validate: ((response) => {
+            if (!validateColors(response)) {
+                return "Please input a valid color or hex code"
+            }
+            return true;
+        })
     },
     {
         name: "shape",
@@ -57,18 +61,26 @@ const prompts = [
         name: "shapeColor",
         message: "Please enter a color for your shape (can also use hex code):",
         type: "input",
-        // how to add validate to check for this ^ .....?......
+        validate: ((response) => {
+            if (!validateColors(response)) {
+                return "Please input a valid color or hex code"
+            }
+            return true;
+        })
     },
 ]
 
+// initializes program
 const init = (() => {
     launch();
     setTimeout(() => {
         inquirer.prompt(prompts)
         .then((response) => {
             console.log(colors.green(response));
+            validateColors(response);
         })
-    }, 2800);
+    }, 2300);
 })
 
+//calls init and runs program
 init();

@@ -13,6 +13,7 @@
   "author": "xChrisxWilliamsx",
   "license": "MIT",
   "dependencies": {
+    "color-name-list": "^10.25.1",
     "colors": "^1.4.0",
     "inquirer": "8.2.4"
   },
